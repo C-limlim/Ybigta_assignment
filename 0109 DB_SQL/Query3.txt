@@ -1,0 +1,13 @@
+SELECT 
+    C.CategoryName,
+    SUM(OD.Quantity) AS Volume,
+    SUM(OD.Quantity * P.Price) AS Amount
+FROM Categories AS C,OrderDetails AS OD, Products AS P
+WHERE C.CategoryID = P.CategoryID AND P.ProductID = OD.ProductID
+GROUP BY C.CategoryName
+HAVING Amount > (
+        SELECT SUM(OD.Quantity * P.Price)
+        FROM Categories AS C,OrderDetails AS OD, Products AS P
+		WHERE C.CategoryID = P.CategoryID AND P.ProductID = OD.ProductID AND C.CategoryName = 'Seafood'
+    )
+ORDER BY Volume DESC;

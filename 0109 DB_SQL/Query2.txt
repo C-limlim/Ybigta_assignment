@@ -1,0 +1,6 @@
+SELECT CategoryName, sum(OD.Quantity) as Volume, sum(OD.Quantity * P.Price) as Amount
+FROM Categories as C, OrderDetails as OD, Products as P
+WHERE C.CategoryID = P.CategoryID and P.ProductID = OD.ProductID
+GROUP BY C.categoryName
+HAVING Volume >= 2000
+ORDER BY Volume desc
